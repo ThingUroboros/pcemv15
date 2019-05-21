@@ -339,15 +339,15 @@ void writeidel(int ide_board, uint32_t val)
         writeidew(ide_board, val >> 16);
 }
 
-void writeide(int ide_bCDROM
+void writeide(int ide_board, uint16_t addr, uint8_t val)
 {
-        IDE *ide = &ideCDROM
-        IDE *ide_other CDROM
+        IDE *ide = &ide_drives[cur_ide[ide_board]];
+        IDE *ide_other = &ide_drives[cur_ide[ide_board] ^ 1];
 
-/*        if (ide_boardCDROM
+/*        if (ide_board && (cr0&1) && !(eflags&VM_FLAG))
         {
-//                pclogCDROM
-                return;CDROM
+//                pclog("Failed write IDE %04X:%08X\n",CS,pc);
+                return;
         }*/
 //        if ((cr0&1) && !(eflags&VM_FLAG))
 //         if (ide_board)
