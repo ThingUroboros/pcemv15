@@ -37,7 +37,7 @@ static uint8_t amstrad_systemstat_1, amstrad_systemstat_2;
 
 void keyboard_amstrad_poll()
 {
-        timer_advance_u64(&keyboard_amstrad.send_delay_timer, (1000 * TIMER_USEC));
+        timer_advance_u64(&keyboard_amstrad.send_delay_timer, (TIMER_USEC));
         if (keyboard_amstrad.wantirq)
         {
                 keyboard_amstrad.wantirq = 0;

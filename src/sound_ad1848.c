@@ -122,7 +122,7 @@ static void ad1848_poll(void *p)
         if (ad1848->timer_latch)
                 timer_advance_u64(&ad1848->timer, ad1848->timer_latch);
         else
-                timer_advance_u64(&ad1848->timer, TIMER_USEC*1000);
+                timer_advance_u64(&ad1848->timer, TIMER_USEC);
         
         ad1848_update(ad1848);
         

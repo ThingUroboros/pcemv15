@@ -72,7 +72,7 @@ uint32_t init_palette[6][256] =
 /* When idle, the PGC drawing thread sleeps. pgc_wake() awakens it - but
  * not immediately. Like the Voodoo, it has a short delay so that writes 
  * can be batched */
-#define WAKE_DELAY (TIMER_USEC * 500)
+#define WAKE_DELAY (TIMER_USEC)
 void pgc_wake(pgc_core_t *pgc)
 {
 	if (!timer_is_enabled(&pgc->wake_timer))

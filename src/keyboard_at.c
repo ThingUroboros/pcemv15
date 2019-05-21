@@ -24,7 +24,7 @@
 #define STAT_IFULL      0x02
 #define STAT_OFULL      0x01
 
-#define PS2_REFRESH_TIME (16 * TIMER_USEC)
+#define PS2_REFRESH_TIME (TIMER_USEC)
 
 struct
 {

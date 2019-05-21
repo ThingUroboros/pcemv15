@@ -825,7 +825,7 @@ void gus_poll_timer_1(void *p)
 {
         gus_t *gus = (gus_t *)p;
         
-	timer_advance_u64(&gus->timer_1, (uint64_t)(TIMER_USEC * 80));
+	timer_advance_u64(&gus->timer_1, (uint64_t)(TIMER_USEC));
 //	pclog("gus_poll_timer_1 %i %i  %i %i %02X\n", gustime, gus->t1on, gus->t1, gus->t1l, gus->tctrl);
         if (gus->t1on)
         {
@@ -860,7 +860,7 @@ void gus_poll_timer_2(void *p)
 {
         gus_t *gus = (gus_t *)p;
         
-	timer_advance_u64(&gus->timer_2, (uint64_t)(TIMER_USEC * 320));
+	timer_advance_u64(&gus->timer_2, (uint64_t)(TIMER_USEC));
 //	pclog("pollgus2 %i %i  %i %i %02X\n", gustime, gus->t2on, gus->t2, gus->t2l, gus->tctrl);
         if (gus->t2on)
         {

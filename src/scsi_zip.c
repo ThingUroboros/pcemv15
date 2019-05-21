@@ -14,7 +14,7 @@
 
 #define ZIP_SECTORS (96*2048)
 
-#define RW_DELAY (TIMER_USEC * 500)
+#define RW_DELAY (TIMER_USEC)
 
 #define SCSI_IOMEGA_SENSE                 0x06
 #define SCSI_IOMEGA_EJECT                 0x0d /*ATAPI only?*/

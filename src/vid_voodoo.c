@@ -5866,7 +5866,7 @@ static void voodoo_tex_writel(uint32_t addr, uint32_t val, void *p)
         *(uint32_t *)(&voodoo->tex_mem[tmu][addr & voodoo->texture_mask]) = val;
 }
 
-#define WAKE_DELAY (TIMER_USEC * 100)
+#define WAKE_DELAY (TIMER_USEC)
 static inline void wake_fifo_thread(voodoo_t *voodoo)
 {
         if (!timer_is_enabled(&voodoo->wake_timer))
@@ -7456,7 +7456,7 @@ skip_draw:
         if (voodoo->line_time)
 		timer_advance_u64(&voodoo->timer, voodoo->line_time);
         else
-		timer_advance_u64(&voodoo->timer, TIMER_USEC * 32);
+		timer_advance_u64(&voodoo->timer, TIMER_USEC);
 }
 
 static void voodoo_add_status_info(char *s, int max_len, void *p)

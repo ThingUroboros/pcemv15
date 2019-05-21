@@ -413,8 +413,8 @@ void sb_exec_command(sb_dsp_t *dsp)
                 if (!timer_is_enabled(&dsp->input_timer))
                 {
                         dsp->sb_timei = 256 - 22;
-                        dsp->sblatchi = TIMER_USEC * 22;
-                        temp = 1000000 / 22;
+                        dsp->sblatchi = TIMER_USEC;
+                        temp = 1000000;
                         dsp->sb_freq = temp;
 			timer_set_delay_u64(&dsp->input_timer, dsp->sblatchi);
                 }
@@ -680,7 +680,7 @@ void sb_write(uint16_t a, uint8_t v, void *priv)
                 dsp->sbreset = v;
                 return;
                 case 0xC: /*Command/data write*/
-		timer_set_delay_u64(&dsp->wb_timer, TIMER_USEC * 1);
+		timer_set_delay_u64(&dsp->wb_timer, TIMER_USEC);
                 if (dsp->asp_data_len)
                 {
 //                        pclog("ASP data %i\n", dsp->asp_data_len);

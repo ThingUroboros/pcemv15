@@ -53,7 +53,7 @@ void mouse_serial_rcr(struct SERIAL *serial, void *p)
         mouse_serial_t *mouse = (mouse_serial_t *)p;
         
         mouse->mousepos = -1;
-        timer_set_delay_u64(&mouse->mousedelay_timer, TIMER_USEC * 5000);
+        timer_set_delay_u64(&mouse->mousedelay_timer, TIMER_USEC);
 }
         
 void mousecallback(void *p)
