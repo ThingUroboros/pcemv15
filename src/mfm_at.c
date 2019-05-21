@@ -223,14 +223,14 @@ void mfm_write(uint16_t port, uint8_t val, void *p)
 //                        pclog("Restore\n");
                         mfm->command &= ~0x0f; /*Mask off step rate*/
                         mfm->status = STAT_BUSY;
-                        timer_set_delay_u64(&mfm->callback_timer, 200*IDE_TIME);
+                        timer_set_delay_u64(&mfm->callback_timer, IDE_TIME);
                         break;
                         
                         case CMD_SEEK:
 //                        pclog("Seek to cylinder %i\n", mfm->cylinder);
                         mfm->command &= ~0x0f; /*Mask off step rate*/
                         mfm->status = STAT_BUSY;
-                        timer_set_delay_u64(&mfm->callback_timer, 200*IDE_TIME);
+                        timer_set_delay_u64(&mfm->callback_timer, IDE_TIME);
                         break;
                         
                         default:
@@ -243,7 +243,7 @@ void mfm_write(uint16_t port, uint8_t val, void *p)
                                 if (val & 2)
                                         fatal("Read with ECC\n");
                                 mfm->status = STAT_BUSY;
-                                timer_set_delay_u64(&mfm->callback_timer, 200*IDE_TIME);
+                                timer_set_delay_u64(&mfm->callback_timer, IDE_TIME);
                                 break;
 
                                 case CMD_WRITE: case CMD_WRITE+1:
@@ -271,18 +271,18 @@ void mfm_write(uint16_t port, uint8_t val, void *p)
 
                                 case CMD_SET_PARAMETERS: /* Initialize Drive Parameters */
                                 mfm->status = STAT_BUSY;
-                                timer_set_delay_u64(&mfm->callback_timer, 30*IDE_TIME);
+                                timer_set_delay_u64(&mfm->callback_timer, IDE_TIME);
                                 break;
 
                                 case CMD_DIAGNOSE: /* Execute Drive Diagnostics */
                                 mfm->status = STAT_BUSY;
-                                timer_set_delay_u64(&mfm->callback_timer, 200*IDE_TIME);
+                                timer_set_delay_u64(&mfm->callback_timer, IDE_TIME);
                                 break;
 
                                 default:
                                 pclog("Bad MFM command %02X\n", val);
                                 mfm->status = STAT_BUSY;
-                                timer_set_delay_u64(&mfm->callback_timer, 200*IDE_TIME);
+                                timer_set_delay_u64(&mfm->callback_timer, IDE_TIME);
                                 break;
                         }
                 }                
@@ -291,7 +291,7 @@ void mfm_write(uint16_t port, uint8_t val, void *p)
                 case 0x3F6: /* Device control */
                 if ((mfm->fdisk & 4) && !(val & 4))
                 {
-                        timer_set_delay_u64(&mfm->callback_timer, 500*IDE_TIME);
+                        timer_set_delay_u64(&mfm->callback_timer,IDE_TIME);
                         mfm->reset = 1;
                         mfm->status = STAT_BUSY;
 //                        pclog("MFM Reset\n");

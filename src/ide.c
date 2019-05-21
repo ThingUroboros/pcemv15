@@ -327,7 +327,7 @@ void writeidew(int ide_board, uint16_t val)
                         if (ide->command == WIN_WRITE_MULTIPLE)
                                 callbackide(ide_board);
                         else
-                      	        timer_set_delay_u64(&ide_timer[ide_board], 6 * IDE_TIME);
+                      	        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                 }
         }
 }
@@ -339,15 +339,15 @@ void writeidel(int ide_board, uint32_t val)
         writeidew(ide_board, val >> 16);
 }
 
-void writeide(int ide_board, uint16_t addr, uint8_t val)
+void writeide(int ide_bCDROM
 {
-        IDE *ide = &ide_drives[cur_ide[ide_board]];
-        IDE *ide_other = &ide_drives[cur_ide[ide_board] ^ 1];
+        IDE *ide = &ideCDROM
+        IDE *ide_other CDROM
 
-/*        if (ide_board && (cr0&1) && !(eflags&VM_FLAG))
+/*        if (ide_boardCDROM
         {
-//                pclog("Failed write IDE %04X:%08X\n",CS,pc);
-                return;
+//                pclogCDROM
+                return;CDROM
         }*/
 //        if ((cr0&1) && !(eflags&VM_FLAG))
 //         if (ide_board)
@@ -457,14 +457,14 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
                 case WIN_SRST: /* ATAPI Device Reset */
                         if (IDE_DRIVE_IS_CDROM(ide)) ide->atastat = BUSY_STAT;
                         else                         ide->atastat = READY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 100*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         return;
 
                 case WIN_RESTORE:
                 case WIN_SEEK:
 //                        pclog("WIN_RESTORE start\n");
                         ide->atastat = READY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 100*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         return;
 
                 case WIN_READ_MULTIPLE:
@@ -488,7 +488,7 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
                         else          pclog("Read %i sectors from sector %i cylinder %i head %i  %i\n",ide->secount,ide->sector,ide->cylinder,ide->head,ins);
 #endif
                         ide->atastat = BUSY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 200*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         ide->do_initial_read = 1;
                         return;
                         
@@ -521,7 +521,7 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
                         else          pclog("Write %i sectors to sector %i cylinder %i head %i\n",ide->secount,ide->sector,ide->cylinder,ide->head);
 #endif
                         ide->atastat = BUSY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 200*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         return;
 
                 case WIN_VERIFY:
@@ -531,7 +531,7 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
                         else          pclog("Read verify %i sectors from sector %i cylinder %i head %i\n",ide->secount,ide->sector,ide->cylinder,ide->head);
 #endif
                         ide->atastat = BUSY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 200*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         return;
 
                 case WIN_FORMAT:
@@ -543,14 +543,14 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
 
                 case WIN_SPECIFY: /* Initialize Drive Parameters */
                         ide->atastat = BUSY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 30*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
 //                        pclog("SPECIFY\n");
 //                        output=1;
                         return;
 
                 case WIN_DRIVE_DIAGNOSTICS: /* Execute Drive Diagnostics */
                         ide->atastat = BUSY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 200*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         return;
 
                 case WIN_PIDENTIFY: /* Identify Packet Device */
@@ -560,7 +560,7 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
                 case WIN_CHECK_POWER_MODE:
                         ide->atastat = BUSY_STAT;
                         callbackide(ide_board);
-//                        idecallback[ide_board]=200*IDE_TIME;
+//                        idecallback[ide_board]=IDE_TIME;
                         return;
 
                 case WIN_IDENTIFY: /* Identify Device */
@@ -568,7 +568,7 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
 //                        output=3;
 //                        timetolive=500;
                         ide->atastat = BUSY_STAT;
-                        timer_set_delay_u64(&ide_timer[ide_board], 200*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                         return;
 
                 case WIN_PACKETCMD: /* ATAPI Packet */
@@ -595,7 +595,7 @@ void writeide(int ide_board, uint16_t addr, uint8_t val)
         case 0x3F6: /* Device control */
                 if ((ide->fdisk&4) && !(val&4) && (ide->type != IDE_NONE || ide_other->type != IDE_NONE))
                 {
-                        timer_set_delay_u64(&ide_timer[ide_board], 500*IDE_TIME);
+                        timer_set_delay_u64(&ide_timer[ide_board],IDE_TIME);
                         ide->reset = ide_other->reset = 1;
                         ide->atastat = ide_other->atastat = BUSY_STAT;
 //                        pclog("IDE Reset %i\n", ide_board);
@@ -770,7 +770,7 @@ uint16_t readidew(int ide_board)
                                         if (ide->command == WIN_READ_MULTIPLE)
                                                 callbackide(ide_board);
                                         else
-                                                timer_set_delay_u64(&ide_timer[ide_board], 6 * IDE_TIME);
+                                                timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
 //                                        pclog("set idecallback\n");
 //                                        callbackide(ide_board);
                                 }
@@ -911,7 +911,7 @@ void callbackide(int ide_board)
                 if (ide_bus_master_read_data)
                 {
                         if (ide_bus_master_read_data(ide_board, &ide->sector_buffer[ide->sector_pos*512], 512, ide_bus_master_p))
-                                timer_set_delay_u64(&ide_timer[ide_board], 6*IDE_TIME);           /*DMA not performed, try again later*/
+                                timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);           /*DMA not performed, try again later*/
                         else
                         {
                                 /*DMA successful*/
@@ -923,7 +923,7 @@ void callbackide(int ide_board)
                                 {
                                         ide_next_sector(ide);
                                         ide->atastat = BUSY_STAT;
-                                        timer_set_delay_u64(&ide_timer[ide_board], 6*IDE_TIME);
+                                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                                 }
                                 else
                                 {
@@ -989,7 +989,7 @@ void callbackide(int ide_board)
                 if (ide_bus_master_write_data)
                 {
                         if (ide_bus_master_write_data(ide_board, (uint8_t *)ide->buffer, 512, ide_bus_master_p))
-                        	timer_set_delay_u64(&ide_timer[ide_board], 6*IDE_TIME);           /*DMA not performed, try again later*/
+                        	timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);           /*DMA not performed, try again later*/
                         else
                         {
                                 /*DMA successful*/
@@ -1002,7 +1002,7 @@ void callbackide(int ide_board)
                                 {
                                         ide_next_sector(ide);
                                         ide->atastat = BUSY_STAT;
-                                        timer_set_delay_u64(&ide_timer[ide_board], 6*IDE_TIME);
+                                        timer_set_delay_u64(&ide_timer[ide_board], IDE_TIME);
                                 }
                                 else
                                 {
@@ -1287,7 +1287,7 @@ void ide_reset_devices()
 {
         if (ide_drives[0].type != IDE_NONE || ide_drives[1].type != IDE_NONE)
         {
-                timer_set_delay_u64(&ide_timer[0], 500*IDE_TIME);
+                timer_set_delay_u64(&ide_timer[0],IDE_TIME);
                 ide_drives[0].reset = ide_drives[1].reset = 1;
                 ide_drives[0].atastat = ide_drives[1].atastat = BUSY_STAT;
                 if (ide_drives[0].type != IDE_NONE)
@@ -1297,7 +1297,7 @@ void ide_reset_devices()
         }
         if (ide_drives[2].type != IDE_NONE || ide_drives[3].type != IDE_NONE)
         {
-                timer_set_delay_u64(&ide_timer[1], 500*IDE_TIME);
+                timer_set_delay_u64(&ide_timer[1],IDE_TIME);
                 ide_drives[2].reset = ide_drives[3].reset = 1;
                 ide_drives[2].atastat = ide_drives[3].atastat = BUSY_STAT;
                 if (ide_drives[2].type != IDE_NONE)
