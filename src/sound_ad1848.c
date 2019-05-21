@@ -210,6 +210,7 @@ void ad1848_init(ad1848_t *ad1848)
         
         for (c = 0; c < 64; c++)
         {
+                /*
                 attenuation = 0.0;
                 if (c & 0x01) attenuation -= 1.5;
                 if (c & 0x02) attenuation -= 3.0;
@@ -219,8 +220,8 @@ void ad1848_init(ad1848_t *ad1848)
                 if (c & 0x20) attenuation -= 48.0;
                 
                 attenuation = pow(10, attenuation / 10);
-                
-                ad1848_vols[c] = (int)(attenuation * 65536);
+                */
+                ad1848_vols[c] = (int)(65535);
 //                pclog("ad1848_vols %i = %f %i\n", c, attenuation, ad1848_vols[c]);
         }
         
