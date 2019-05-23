@@ -430,9 +430,7 @@ int wx_setupmenu(void* data)
                         window_remember ? WX_MB_CHECKED : WX_MB_UNCHECKED);
         wx_checkmenuitem(menu, WX_ID("IDM_BPB_DISABLE"), bpb_disable ? WX_MB_CHECKED : WX_MB_UNCHECKED);
 
-        sprintf(menuitem, "IDM_SND_BUF[%d]", (int)(log(sound_buf_len/MIN_SND_BUF)/log(2)));
-        wx_checkmenuitem(menu, WX_ID(menuitem), WX_MB_CHECKED);
-
+       
         sprintf(menuitem, "IDM_SND_GAIN[%d]", (int)(sound_gain / 2));
         wx_checkmenuitem(menu, WX_ID(menuitem), WX_MB_CHECKED);
 
@@ -1088,7 +1086,6 @@ int wx_handle_command(void* hwnd, int wParam, int checked)
         }
         else if (ID_RANGE("IDM_SND_BUF[start]", "IDM_SND_BUF[end]"))
         {
-                sound_buf_len = MIN_SND_BUF*1<<(wParam - wx_xrcid("IDM_SND_BUF[start]"));
                 wx_checkmenuitem(menu, wParam, WX_MB_CHECKED);
                 saveconfig(NULL);
         }

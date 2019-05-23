@@ -486,7 +486,6 @@ void resetpchard()
 		}
 	}
 
-        sound_update_buf_length();
         cpu_set_turbo(1);
 }
 
@@ -689,7 +688,6 @@ void loadconfig(char *fn)
         window_y = config_get_int(CFG_GLOBAL, NULL, "window_y", 0);
         window_remember = config_get_int(CFG_GLOBAL, NULL, "window_remember", 0);
 
-        sound_buf_len = config_get_int(CFG_GLOBAL, NULL, "sound_buf_len", 200);
         sound_gain = config_get_int(CFG_GLOBAL, NULL, "sound_gain", 0);
         
         GAMEBLASTER = config_get_int(CFG_MACHINE, NULL, "gameblaster", 0);
@@ -888,7 +886,6 @@ void saveconfig(char *fn)
         config_set_int(CFG_GLOBAL, NULL, "window_y", window_y);
         config_set_int(CFG_GLOBAL, NULL, "window_remember", window_remember);
 
-        config_set_int(CFG_GLOBAL, NULL, "sound_buf_len", sound_buf_len);
         config_set_int(CFG_GLOBAL, NULL, "sound_gain", sound_gain);
         
         config_set_int(CFG_MACHINE, NULL, "gameblaster", GAMEBLASTER);

@@ -23,7 +23,7 @@ static ALuint source[2];     // audio source
 #endif
 #define FREQ 48000
 
-int SOUNDBUFLEN = 48000/20;
+int SOUNDBUFLEN = MAXSOUNDBUFLEN;
 
 #define BUFLEN SOUNDBUFLEN
 
@@ -150,7 +150,7 @@ void inital()
 void givealbuffer(int32_t *buf)
 {
 #ifdef USE_OPENAL
-        int16_t buf16[BUFLEN*2];
+      
         int processed;
         int state;
         
@@ -189,17 +189,8 @@ void givealbuffer(int32_t *buf)
 //                printf("U ");
                 check();
 
-                for (c=0;c<BUFLEN*2;c++)
-                {
-                        if (buf[c] < -32768)
-                                buf16[c] = -32768;
-                        else if (buf[c] > 32767)
-                                buf16[c] = 32767;
-                        else
-                                buf16[c] = buf[c];
-                }
 //                for (c=0;c<BUFLEN*2;c++) buf[c]^=0x8000;
-                alBufferData(buffer, AL_FORMAT_STEREO16, buf16, BUFLEN*2*2, FREQ);
+                alBufferData(buffer, AL_FORMAT_STEREO16, buf, BUFLEN*2*2, FREQ);
 //                printf("B ");
                check();
 

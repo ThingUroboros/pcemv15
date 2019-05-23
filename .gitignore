@@ -1,2 +1,5 @@
 *.o
 *.Po
+*.json
+*.bin
+*.ipch

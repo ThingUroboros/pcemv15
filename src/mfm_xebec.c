@@ -21,7 +21,7 @@
 
 #include "mfm_xebec.h"
 
-#define XEBEC_TIME (2000 * TIMER_USEC)
+#define XEBEC_TIME (TIMER_USEC)
 
 extern char ide_fn[7][512];
 

@@ -125,18 +125,9 @@ static thread_t *sound_cd_thread_h;
 static event_t *sound_cd_event;
 static unsigned int cd_vol_l, cd_vol_r;
 
-int sound_buf_len = 48000 / 10;
 int sound_gain = 0;
 
-void sound_update_buf_length()
-{
-        int new_buf_len = (48000 / (1000 / sound_buf_len)) / 4;
-        
-        if (new_buf_len > MAXSOUNDBUFLEN)
-                new_buf_len = MAXSOUNDBUFLEN;
-                
-        SOUNDBUFLEN = new_buf_len;
-}
+
 
 void sound_set_cd_volume(unsigned int vol_l, unsigned int vol_r)
 {
@@ -227,7 +218,7 @@ void sound_add_handler(void (*get_buffer)(int32_t *buffer, int len, void *p), vo
 static int cd_pos = 0;
 void sound_poll(void *priv)
 {
-	timer_advance_u64(&sound_poll_timer, sound_poll_latch);
+       timer_advance_u64(&sound_poll_timer, sound_poll_latch);
 
         cd_pos++;
         if (cd_pos == (CD_BUFLEN * 48000) / CD_FREQ)
@@ -237,34 +228,37 @@ void sound_poll(void *priv)
         }
         
         sound_pos_global++;
-        if (sound_pos_global == SOUNDBUFLEN)
+        if (sound_pos_global == MAXSOUNDBUFLEN)
         {
                 int c;
 /*                int16_t buf16[SOUNDBUFLEN * 2 ];*/
 
-                memset(outbuffer, 0, SOUNDBUFLEN * 2 * sizeof(int32_t));
+                memset(outbuffer, 0, MAXSOUNDBUFLEN * 2 * sizeof(int32_t));
 
                 for (c = 0; c < sound_handlers_num; c++)
-                        sound_handlers[c].get_buffer(outbuffer, SOUNDBUFLEN, sound_handlers[c].priv);
+                        sound_handlers[c].get_buffer(outbuffer, MAXSOUNDBUFLEN, sound_handlers[c].priv);
 
 
-/*                for (c=0;c<SOUNDBUFLEN*2;c++)
+                int16_t buf16[MAXSOUNDBUFLEN*2];
+                for (c=0;c<MAXSOUNDBUFLEN*2;c++)
                 {
-                        if (outbuffer[c] < -32768)
-                                buf16[c] = -32768;
+                        
+	               /* if (outbuffer[c] < -32768)
+                                buf16[c] = 32768;
                         else if (outbuffer[c] > 32767)
-                                buf16[c] = 32767;
+                                buf16[c] = -32767;
                         else
-                                buf16[c] = outbuffer[c];
+                        */
+                        buf16[c] = outbuffer[c];
                 }
-
+        /*
         if (!soundf) soundf=fopen("sound.pcm","wb");
         fwrite(buf16,(SOUNDBUFLEN)*2*2,1,soundf);*/
         
-                if (soundon) givealbuffer(outbuffer);
+                if (soundon) givealbuffer(buf16);
 
                 sound_pos_global = 0;
-                sound_update_buf_length();
+                //sound_update_buf_length();
         }
 }
 
